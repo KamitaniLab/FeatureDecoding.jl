@@ -77,40 +77,6 @@ results_dir_root = "./results/feature_decoders/deeprecon_fmriprep_rep5_500voxel_
 
 # Functions ##################################################################
 
-
-function save_array(fname, name, array; sparse=false)
-
-    function _transpose(a)
-        return permutedims(a, reverse(collect(1:ndims(a))))
-    end
-
-    # Conver to row-major order (Python compatilibity)
-    shape_array = collect(size(array))
-    background = 0
-    h5 = h5open(fname, "w")
-    if sparse
-        index = findall(x -> x != 0, array)
-        value = array[index]
-
-        index_fixed = hcat([collect(Tuple(idx)) for idx in index]...)
-
-        index_fixed = _transpose(index_fixed)
-        index_fixed = index_fixed .- 1  # Convert to zero-based indexing for Python compatibility
-
-        create_group(h5, name)
-        write(h5[name], "__bdpy_sparse_arrray", 1)
-        write(h5[name], "shape", shape_array)
-        write(h5[name], "background", background)
-        write(h5[name], "index", index_fixed)
-        write(h5[name], "value", value)
-    else
-        array = _transpose(array)
-        write(h5, name, array)
-    end
-    close(h5)
-
-end
-
 function train_decoder(x, y, alpha, n_voxels; x_mean=[], x_norm=[], y_mean=[], y_norm=[], y_index=[], chunk_axis=0, save_dir="./model")
 
     function train_decoder_chunk(_x, _y)
