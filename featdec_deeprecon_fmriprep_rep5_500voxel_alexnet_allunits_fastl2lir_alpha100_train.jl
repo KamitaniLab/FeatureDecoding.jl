@@ -200,7 +200,7 @@ for lay in layers
             save_array(joinpath(save_dir, "x_mean.mat"), "x_mean", x_mean)
             save_array(joinpath(save_dir, "x_norm.mat"), "x_norm", x_norm)
             save_array(joinpath(save_dir, "y_mean.mat"), "y_mean", y_mean, sparse=true)
-            save_array(joinpath(save_dir, "y_norm.mat"), "y_norm", y_mean)
+            save_array(joinpath(save_dir, "y_norm.mat"), "y_norm", y_norm)
 
             # Get sample index of Y
             y_index = [findall(x -> x == xl, y_labels)[1] for xl in x_labels]
