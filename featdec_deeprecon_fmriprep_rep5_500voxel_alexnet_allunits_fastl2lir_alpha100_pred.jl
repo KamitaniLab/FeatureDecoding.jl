@@ -71,7 +71,7 @@ function predict_features(model_dir, x; x_mean=[], x_norm=[], y_mean=[], y_norm=
     # Normalize X
     x = (x .- x_mean) ./ x_norm
 
-    model = load_model(model_dir)
+    model = load_model(model_dir, chunk_axis=chunk_axis)
 
     @show size(model.W)
     @show size(model.b)
